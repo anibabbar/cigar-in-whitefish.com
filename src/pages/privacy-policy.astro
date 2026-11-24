@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import site from '../data/site.json';
+import { path } from '../utils/paths';
 
 const seo = {
   metaTitle: `Privacy Policy & Terms | ${site.siteName}`,
@@ -10,8 +11,8 @@ const seo = {
 };
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Privacy Policy', url: '/privacy-policy' },
+  { name: 'Home', url: path('/') },
+  { name: 'Privacy Policy', url: path('/privacy-policy') },
 ];
 ---
 
@@ -25,7 +26,7 @@ const breadcrumbs = [
       
       <!-- Breadcrumbs -->
       <nav class="flex items-center gap-2 text-xs text-[#78716c] mb-8 font-medium" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+        <a href={path('/')} class="hover:text-[#1c1917] transition-colors">home</a>
         <span>/</span>
         <span class="text-[#1c1917]" aria-current="page">privacy policy</span>
       </nav>

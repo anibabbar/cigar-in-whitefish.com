@@ -2,10 +2,13 @@ import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
+// Dynamic base path for GitHub Actions vs Local Development
+const isGitHubActions = process.env.GITHUB_ACTIONS === 'true';
+
 // https://astro.build/config
 export default defineConfig({
-  // REPLACE WITH YOUR PRODUCTION DOMAIN (e.g., https://cigar-in-whitefish.com)
-  site: 'https://example.com',
+  site: isGitHubActions ? 'https://anibabbar.github.io' : 'https://cigar-in-whitefish.com',
+  base: isGitHubActions ? '/cigar-in-whitefish.com' : '/',
   output: 'static',
   integrations: [
     tailwind({

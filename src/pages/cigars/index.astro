@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import cigarInventory from '../../data/cigarInventory.json';
 import site from '../../data/site.json';
+import path from '../../utils/paths';
 
 const seo = {
   metaTitle: `Cigar Brands in Whitefish, MT | ${site.siteName} & Walk-In Humidor`,
@@ -16,8 +17,8 @@ const seo = {
 };
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Cigars', url: '/cigars' },
+  { name: 'Home', url: path('/') },
+  { name: 'Cigars', url: path('/cigars') },
 ];
 ---
 
@@ -32,7 +33,7 @@ const breadcrumbs = [
       <!-- Page Header -->
       <header class="max-w-3xl mb-16 space-y-3">
         <nav class="flex items-center gap-2 text-xs text-[#78716c] font-medium" aria-label="Breadcrumb">
-          <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+          <a href={path('/')} class="hover:text-[#1c1917] transition-colors">home</a>
           <span>/</span>
           <span class="text-[#1c1917]" aria-current="page">cigars</span>
         </nav>
@@ -68,7 +69,7 @@ const breadcrumbs = [
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cigarInventory.handmadePremium.map((cigar) => (
             <a
-              href={`/cigars/${cigar.slug}`}
+              href={path(`/cigars/${cigar.slug}`)}
               class="p-6 rounded-2xl bg-[#ffffff] border border-[#e9e3da] hover:border-[#1c1917] transition-all flex flex-col justify-between group shadow-xs hover:shadow-sm"
             >
               <div class="space-y-3">
@@ -116,7 +117,7 @@ const breadcrumbs = [
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cigarInventory.regularClassics.map((item) => (
             <a
-              href={`/cigars/${item.slug}`}
+              href={path(`/cigars/${item.slug}`)}
               class="p-6 rounded-2xl bg-[#ffffff] border border-[#e9e3da] hover:border-[#1c1917] transition-all flex flex-col justify-between group shadow-xs hover:shadow-sm"
             >
               <div class="space-y-4">

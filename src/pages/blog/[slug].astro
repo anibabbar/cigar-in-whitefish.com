@@ -5,6 +5,7 @@ import BlogCard from '../../components/BlogCard.astro';
 import site from '../../data/site.json';
 import { getPublishedBlogPosts, getPostSlug } from '../../utils/content';
 import { getReadingTime } from '../../utils/readingTime';
+import { path } from '../../utils/paths';
 
 export async function getStaticPaths() {
   const posts = await getPublishedBlogPosts();
@@ -34,9 +35,9 @@ const formattedUpdatedDate = post.data.updatedDate
   : null;
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Journal', url: '/blog' },
-  { name: post.data.title, url: `/blog/${slug}` },
+  { name: 'Home', url: path('/') },
+  { name: 'Journal', url: path('/blog') },
+  { name: post.data.title, url: path(`/blog/${slug}`) },
 ];
 
 const relatedPosts = allPosts
@@ -58,9 +59,9 @@ const relatedPosts = allPosts
       
       <!-- Breadcrumbs -->
       <nav class="flex items-center gap-2 text-xs text-[#78716c] mb-8 font-medium" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+        <a href={path('/')} class="hover:text-[#1c1917] transition-colors">home</a>
         <span>/</span>
-        <a href="/blog" class="hover:text-[#1c1917] transition-colors">journal</a>
+        <a href={path('/blog')} class="hover:text-[#1c1917] transition-colors">journal</a>
         <span>/</span>
         <span class="text-[#1c1917] truncate" aria-current="page">{post.data.title}</span>
       </nav>
@@ -101,7 +102,7 @@ const relatedPosts = allPosts
       {post.data.featuredImage && (
         <figure class="mb-12 rounded-2xl overflow-hidden border border-[#e9e3da] bg-stone-100 shadow-sm">
           <img
-            src={post.data.featuredImage.src}
+            src={path(post.data.featuredImage.src)}
             alt={post.data.featuredImage.alt || post.data.title}
             class="w-full aspect-[16/9] object-cover"
             loading="eager"

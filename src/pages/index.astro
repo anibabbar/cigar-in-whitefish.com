@@ -4,6 +4,7 @@ import BlogCard from '../components/BlogCard.astro';
 import site from '../data/site.json';
 import cigarInventory from '../data/cigarInventory.json';
 import { getPublishedBlogPosts } from '../utils/content';
+import path from '../utils/paths';
 
 const allPosts = await getPublishedBlogPosts();
 const latestPosts = allPosts.slice(0, 3);
@@ -113,7 +114,7 @@ const faqItems = [
         <!-- Main Large Showcase Image (Left, Spanning 2 Rows) -->
         <div class="md:col-span-7 lg:col-span-8 md:row-span-2 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100 aspect-[16/10] md:aspect-auto">
           <img
-            src="/images/uploads/hero-humidor.jpg"
+            src={path('/images/uploads/hero-humidor.jpg')}
             alt="Hand-selected premium cigars in Whitefish MT humidor at 555 Smoke Shop"
             class="w-full h-full object-cover"
             loading="eager"
@@ -123,7 +124,7 @@ const faqItems = [
         <!-- Right Column Top: Walk-In Humidor -->
         <div class="md:col-span-5 lg:col-span-4 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100 aspect-[16/10]">
           <img
-            src="/images/uploads/walkin-humidor.jpg"
+            src={path('/images/uploads/walkin-humidor.jpg')}
             alt="Walk-in Spanish cedar humidor shelving with boutique cigars in Whitefish Montana"
             class="w-full h-full object-cover"
             loading="eager"
@@ -133,7 +134,7 @@ const faqItems = [
         <!-- Right Column Bottom: Store Interior -->
         <div class="md:col-span-5 lg:col-span-4 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100 aspect-[16/10]">
           <img
-            src="/images/uploads/shop-interior.jpg"
+            src={path('/images/uploads/shop-interior.jpg')}
             alt="555 Smoke Shop storefront interior in downtown Whitefish MT"
             class="w-full h-full object-cover"
             loading="lazy"
@@ -151,7 +152,7 @@ const faqItems = [
         
         <div class="lg:col-span-6 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100">
           <img
-            src="/images/uploads/padron-showcase.jpg"
+            src={path('/images/uploads/padron-showcase.jpg')}
             alt="Montana's largest selection of Padrón cigars in Whitefish MT at 555 Smoke Shop"
             class="w-full aspect-[4/3] object-cover"
             loading="lazy"
@@ -170,7 +171,7 @@ const faqItems = [
           </p>
           <div class="pt-4">
             <a
-              href="/contact"
+              href={path('/contact')}
               class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
             >
               Inquire about current Padrón box allocations &rarr;
@@ -199,7 +200,7 @@ const faqItems = [
           </p>
           <div class="pt-4">
             <a
-              href="/services"
+              href={path('/services')}
               class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
             >
               Explore rare vitolas &amp; special box orders &rarr;
@@ -209,7 +210,7 @@ const faqItems = [
 
         <div class="lg:col-span-6 order-1 lg:order-2 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100">
           <img
-            src="/images/uploads/opusx-showcase.jpg"
+            src={path('/images/uploads/opusx-showcase.jpg')}
             alt="Arturo Fuente Opus X rare cigars at Whitefish Montana cigar shop"
             class="w-full aspect-[4/3] object-cover"
             loading="lazy"
@@ -239,7 +240,7 @@ const faqItems = [
             <div class="space-y-4">
               <div class="h-16 flex items-center mb-2">
                 <img
-                  src={brand.logo}
+                  src={path(brand.logo)}
                   alt={`${brand.name} logo`}
                   class="max-h-12 w-auto object-contain filter grayscale contrast-125 opacity-85"
                   loading="lazy"
@@ -282,7 +283,7 @@ const faqItems = [
             Handmade Premium Cigars in Whitefish
           </h3>
           <a
-            href="/cigars"
+            href={path('/cigars')}
             class="text-xs uppercase tracking-wider text-[#1c1917] font-semibold bg-[#ffffff] px-4 py-1.5 rounded-full border border-[#e9e3da] hover:border-[#1c1917] transition-colors"
           >
             View All {cigarInventory.handmadePremium.length} Brands &rarr;
@@ -292,7 +293,7 @@ const faqItems = [
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cigarInventory.handmadePremium.map((cigar) => (
             <a
-              href={`/cigars/${cigar.slug}`}
+              href={path(`/cigars/${cigar.slug}`)}
               class="p-6 rounded-xl bg-[#ffffff] border border-[#e9e3da] hover:border-[#1c1917] transition-all flex flex-col justify-between shadow-xs group hover:shadow-sm"
             >
               <div class="space-y-2">
@@ -338,7 +339,7 @@ const faqItems = [
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cigarInventory.regularClassics.map((item) => (
             <a
-              href={`/cigars/${item.slug}`}
+              href={path(`/cigars/${item.slug}`)}
               class="p-6 rounded-xl bg-[#ffffff] border border-[#e9e3da] hover:border-[#1c1917] transition-all flex flex-col justify-between shadow-xs group hover:shadow-sm"
             >
               <div class="space-y-3">
@@ -403,7 +404,7 @@ const faqItems = [
           </div>
           <div class="pt-2">
             <a
-              href="/about"
+              href={path('/about')}
               class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
             >
               Learn More About Our Whitefish Shop &rarr;
@@ -413,7 +414,7 @@ const faqItems = [
 
         <div class="lg:col-span-6 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100">
           <img
-            src="/images/uploads/shop-interior.jpg"
+            src={path('/images/uploads/shop-interior.jpg')}
             alt="Inside 555 Smoke Shop - premier cigar shop in downtown Whitefish MT"
             class="w-full aspect-[4/3] object-cover"
             loading="lazy"
@@ -438,7 +439,7 @@ const faqItems = [
           </h2>
         </div>
         <a
-          href="/blog"
+          href={path('/blog')}
           class="text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
         >
           View All Articles &rarr;
@@ -515,14 +516,14 @@ const faqItems = [
           </a>
         ) : (
           <a
-            href="/about"
+            href={path('/about')}
             class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider bg-[#fbf9f6] text-[#1c1917] hover:bg-[#ede7df] transition-colors"
           >
             About Us
           </a>
         )}
         <a
-          href="/contact"
+          href={path('/contact')}
           class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider border border-[#78716c] text-[#fbf9f6] hover:bg-[#262422] transition-colors"
         >
           Contact &amp; Hours

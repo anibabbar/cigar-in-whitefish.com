@@ -1,14 +1,16 @@
 ---
 import site from '../data/site.json';
 import { getPublishedPages, getPageSlug } from '../utils/content';
+import path from '../utils/paths';
 
 const pages = await getPublishedPages();
 const navPages = pages.filter((page) => page.data.showInNav !== false);
 
 const currentPath = Astro.url.pathname;
-const isActive = (path: string) => {
-  if (path === '/') return currentPath === '/' || currentPath === '';
-  return currentPath.startsWith(path);
+const isActive = (target: string) => {
+  const p = path(target);
+  if (target === '/') return currentPath === p || currentPath === p + '/' || currentPath === '';
+  return currentPath.startsWith(p);
 };
 ---
 
@@ -17,9 +19,9 @@ const isActive = (path: string) => {
     <div class="flex items-center justify-between h-20">
       
       <!-- Brand Logo -->
-      <a href="/" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#3d2b21] rounded-lg p-1">
+      <a href={path('/')} class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#3d2b21] rounded-lg p-1">
         <img
-          src="/images/logo-new-smoke-shop.png"
+          src={path(site.logo || '/images/logo-new-smoke-shop.png')}
           alt={site.siteName}
           class="h-9 sm:h-10 w-auto object-contain hover:opacity-95 transition-opacity"
           loading="eager"
@@ -29,7 +31,7 @@ const isActive = (path: string) => {
       <!-- Desktop Nav Links (Clean, Lowercase, Organic) -->
       <nav class="hidden md:flex items-center gap-8" aria-label="Main Navigation">
         <a
-          href="/"
+          href={path('/')}
           class={`text-sm font-medium transition-colors ${
             isActive('/')
               ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
@@ -40,7 +42,7 @@ const isActive = (path: string) => {
         </a>
 
         <a
-          href="/cigars"
+          href={path('/cigars')}
           class={`text-sm font-medium transition-colors ${
             isActive('/cigars')
               ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
@@ -55,7 +57,7 @@ const isActive = (path: string) => {
           const href = `/${slug}`;
           return (
             <a
-              href={href}
+              href={path(href)}
               class={`text-sm font-medium transition-colors ${
                 isActive(href)
                   ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
@@ -68,7 +70,7 @@ const isActive = (path: string) => {
         })}
 
         <a
-          href="/blog"
+          href={path('/blog')}
           class={`text-sm font-medium transition-colors ${
             isActive('/blog')
               ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
@@ -90,7 +92,7 @@ const isActive = (path: string) => {
           </a>
         )}
         <a
-          href="/contact"
+          href={path('/contact')}
           class="inline-flex items-center justify-center px-5 py-2.5 rounded-md text-xs font-semibold tracking-wider bg-[#1c1917] text-[#fbf9f6] hover:bg-[#3d2b21] transition-colors"
         >
           Contact
@@ -113,7 +115,7 @@ const isActive = (path: string) => {
   <input type="checkbox" id="mobile-menu-toggle" class="peer hidden" aria-hidden="true" />
   <div class="hidden peer-checked:block md:hidden border-t border-[#e9e3da] bg-[#fbf9f6] px-6 pt-4 pb-8 space-y-3">
     <a
-      href="/"
+      href={path('/')}
       class={`block text-base font-medium ${
         isActive('/') ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
       }`}
@@ -122,7 +124,7 @@ const isActive = (path: string) => {
     </a>
 
     <a
-      href="/cigars"
+      href={path('/cigars')}
       class={`block text-base font-medium ${
         isActive('/cigars') ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
       }`}
@@ -135,7 +137,7 @@ const isActive = (path: string) => {
       const href = `/${slug}`;
       return (
         <a
-          href={href}
+          href={path(href)}
           class={`block text-base font-medium ${
             isActive(href) ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
           }`}
@@ -146,7 +148,7 @@ const isActive = (path: string) => {
     })}
 
     <a
-      href="/blog"
+      href={path('/blog')}
       class={`block text-base font-medium ${
         isActive('/blog') ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
       }`}
@@ -164,7 +166,7 @@ const isActive = (path: string) => {
         </a>
       )}
       <a
-        href="/contact"
+        href={path('/contact')}
         class="inline-flex items-center justify-center px-4 py-3 rounded-md text-sm font-semibold bg-[#1c1917] text-[#fbf9f6]"
       >
         Contact

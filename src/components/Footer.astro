@@ -1,6 +1,7 @@
 ---
 import site from '../data/site.json';
 import { getPublishedPages, getPageSlug } from '../utils/content';
+import path from '../utils/paths';
 
 const pages = await getPublishedPages();
 const currentYear = new Date().getFullYear();
@@ -12,9 +13,9 @@ const currentYear = new Date().getFullYear();
       
       <!-- Brand & Mission Column -->
       <div class="space-y-4">
-        <a href="/" class="inline-block">
+        <a href={path('/')} class="inline-block">
           <img
-            src="/images/logo-new-smoke-shop.png"
+            src={path(site.logo || '/images/logo-new-smoke-shop.png')}
             alt={site.siteName}
             class="h-9 w-auto object-contain hover:opacity-95 transition-opacity mb-1"
             loading="lazy"
@@ -42,26 +43,26 @@ const currentYear = new Date().getFullYear();
         </h3>
         <ul class="space-y-2.5 text-sm">
           <li>
-            <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+            <a href={path('/')} class="hover:text-[#1c1917] transition-colors">home</a>
           </li>
           <li>
-            <a href="/cigars" class="hover:text-[#1c1917] transition-colors">cigars</a>
+            <a href={path('/cigars')} class="hover:text-[#1c1917] transition-colors">cigars</a>
           </li>
           {pages.map((page) => {
             const slug = getPageSlug(page);
             return (
               <li>
-                <a href={`/${slug}`} class="hover:text-[#1c1917] transition-colors">
+                <a href={path(`/${slug}`)} class="hover:text-[#1c1917] transition-colors">
                   {slug === 'about' ? 'about' : slug === 'services' ? 'services' : page.data.title.toLowerCase()}
                 </a>
               </li>
             );
           })}
           <li>
-            <a href="/blog" class="hover:text-[#1c1917] transition-colors">journal</a>
+            <a href={path('/blog')} class="hover:text-[#1c1917] transition-colors">journal</a>
           </li>
           <li>
-            <a href="/contact" class="hover:text-[#1c1917] transition-colors">contact</a>
+            <a href={path('/contact')} class="hover:text-[#1c1917] transition-colors">contact</a>
           </li>
         </ul>
       </div>
@@ -122,17 +123,17 @@ const currentYear = new Date().getFullYear();
         </h3>
         <ul class="space-y-2.5 text-sm">
           <li>
-            <a href="/privacy-policy" class="hover:text-[#1c1917] transition-colors">
+            <a href={path('/privacy-policy')} class="hover:text-[#1c1917] transition-colors">
               Privacy Policy &amp; Terms
             </a>
           </li>
           <li>
-            <a href="/sitemap-index.xml" class="hover:text-[#1c1917] transition-colors">
+            <a href={path('/sitemap-index.xml')} class="hover:text-[#1c1917] transition-colors">
               XML Sitemap
             </a>
           </li>
           <li>
-            <a href="/rss.xml" class="hover:text-[#1c1917] transition-colors">
+            <a href={path('/rss.xml')} class="hover:text-[#1c1917] transition-colors">
               RSS Feed
             </a>
           </li>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import site from '../data/site.json';
+import path from '../utils/paths';
 
 const seo = {
   metaTitle: `Contact & Inquiries | ${site.siteName}`,
@@ -10,8 +11,8 @@ const seo = {
 };
 
 const breadcrumbs = [
-  { name: 'Home', url: '/' },
-  { name: 'Contact', url: '/contact' },
+  { name: 'Home', url: path('/') },
+  { name: 'Contact', url: path('/contact') },
 ];
 ---
 
@@ -26,7 +27,7 @@ const breadcrumbs = [
       <!-- Page Header -->
       <header class="max-w-3xl mb-12 space-y-3">
         <nav class="flex items-center gap-2 text-xs text-[#78716c] font-medium" aria-label="Breadcrumb">
-          <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+          <a href={path('/')} class="hover:text-[#1c1917] transition-colors">home</a>
           <span>/</span>
           <span class="text-[#1c1917]" aria-current="page">contact</span>
         </nav>
