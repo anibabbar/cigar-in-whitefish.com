@@ -1,0 +1,94 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublishedPages, getPageSlug } from '../utils/content';
+import site from '../data/site.json';
+
+export async function getStaticPaths() {
+  const pages = await getPublishedPages();
+  return pages.map((page) => ({
+    params: { slug: getPageSlug(page) },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: page.data.title, url: `/${getPageSlug(page)}` },
+];
+---
+
+<BaseLayout
+  title={page.data.title}
+  seo={page.data.seo}
+  featuredImage={page.data.featuredImage}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="py-12 sm:py-16 lg:py-20 bg-[#fbf9f6]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs text-[#78716c] mb-8 font-medium" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+        <span>/</span>
+        <span class="text-[#1c1917]" aria-current="page">{page.data.title.toLowerCase()}</span>
+      </nav>
+
+      <!-- Page Header -->
+      <header class="space-y-4 mb-10 pb-8 border-b border-[#e9e3da]">
+        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] font-normal leading-tight">
+          {page.data.title}
+        </h1>
+        {page.data.heroSubtitle && (
+          <p class="font-serif text-lg sm:text-xl text-[#78716c] italic font-light leading-relaxed">
+            {page.data.heroSubtitle}
+          </p>
+        )}
+      </header>
+
+      <!-- Featured Image with Caption -->
+      {page.data.featuredImage && (
+        <figure class="mb-12 rounded-2xl overflow-hidden border border-[#e9e3da] bg-stone-100 shadow-sm">
+          <img
+            src={page.data.featuredImage.src}
+            alt={page.data.featuredImage.alt || page.data.title}
+            class="w-full aspect-[16/9] object-cover"
+            loading="eager"
+          />
+          {page.data.featuredImage.caption && (
+            <figcaption class="p-3.5 text-center text-xs text-[#78716c] italic bg-[#ffffff] border-t border-[#e9e3da]">
+              {page.data.featuredImage.caption}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
+      <!-- Rich Text Markdown Body with Editorial Warm Styling -->
+      <div class="prose prose-stone max-w-none prose-headings:font-serif prose-headings:font-normal prose-headings:text-[#1c1917] prose-p:text-[#44403c] prose-p:leading-relaxed prose-a:text-[#1c1917] prose-a:underline hover:prose-a:text-[#78716c] prose-li:text-[#44403c]">
+        <Content />
+      </div>
+
+      <!-- Action Card -->
+      <div class="mt-16 p-8 rounded-2xl bg-[#ffffff] border border-[#e9e3da] flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+        <div>
+          <h3 class="font-serif text-xl font-normal text-[#1c1917]">
+            Have questions for our shop?
+          </h3>
+          <p class="text-sm text-[#78716c] mt-1 font-light">
+            We are here to help you select the ideal stick for any occasion at {site.siteName}.
+          </p>
+        </div>
+        <a
+          href="/contact"
+          class="shrink-0 px-6 py-3 rounded-md text-xs font-semibold tracking-wider bg-[#1c1917] text-[#fbf9f6] hover:bg-[#3d2b21] transition-colors"
+        >
+          Contact Us &rarr;
+        </a>
+      </div>
+
+    </div>
+  </article>
+</BaseLayout>

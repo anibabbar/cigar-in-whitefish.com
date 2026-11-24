@@ -1,0 +1,203 @@
+media:
+  - name: images
+    input: public/images/uploads
+    output: /images/uploads
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+
+components:
+  featuredImage:
+    name: featuredImage
+    label: Featured Image
+    type: object
+    fields:
+      - name: src
+        label: Image File
+        type: image
+        options:
+          media: images
+      - name: alt
+        label: Alt Text
+        type: string
+        description: "Descriptive alt text for accessibility and image SEO"
+      - name: caption
+        label: Caption
+        type: string
+        required: false
+
+  seo:
+    name: seo
+    label: SEO Settings
+    type: object
+    fields:
+      - name: metaTitle
+        label: Meta Title
+        type: string
+        description: "Custom SEO title tag (50–60 chars). Falls back to page/post title if empty."
+      - name: metaDescription
+        label: Meta Description
+        type: text
+        description: "Custom meta description (140–160 chars)."
+      - name: primaryKeyword
+        label: Primary Keyword
+        type: string
+        description: "Main target keyword for this page or post."
+      - name: secondaryKeywords
+        label: Secondary Keywords
+        type: string
+        list: true
+        description: "Additional LSI / long-tail keywords."
+      - name: canonicalUrl
+        label: Canonical URL
+        type: string
+        required: false
+        description: "Optional custom canonical URL override."
+      - name: ogImage
+        label: Social Share Image (OG Image)
+        type: image
+        required: false
+        options:
+          media: images
+        description: "Optional social share image override."
+      - name: noIndex
+        label: No Index
+        type: boolean
+        default: false
+        description: "Exclude this page from search engine indexing."
+
+content:
+  - name: blog
+    label: Blog Posts
+    type: collection
+    path: src/content/blog
+    format: yaml-frontmatter
+    filename: "{slug}.md"
+    view:
+      fields: [title, pubDate, draft]
+      primary: title
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        pattern: "^[a-z0-9-]+$"
+      - name: pubDate
+        label: Publication Date
+        type: date
+        required: true
+      - name: updatedDate
+        label: Updated Date
+        type: date
+        required: false
+      - name: featuredImage
+        label: Featured Image
+        component: featuredImage
+      - name: seo
+        label: SEO Metadata
+        component: seo
+      - name: draft
+        label: Draft
+        type: boolean
+        default: false
+      - name: body
+        label: Body Content
+        type: rich-text
+        options:
+          media: images
+
+  - name: pages
+    label: Custom Pages
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    filename: "{slug}.md"
+    view:
+      fields: [title, slug, showInNav, navOrder, draft]
+      primary: title
+    fields:
+      - name: title
+        label: Page Title
+        type: string
+        required: true
+      - name: slug
+        label: Slug
+        type: string
+        required: true
+        pattern: "^[a-z0-9-]+$"
+        description: "URL path, e.g. 'about' or 'services'"
+      - name: showInNav
+        label: Show in Main Navigation
+        type: boolean
+        default: true
+      - name: navOrder
+        label: Navigation Display Order
+        type: number
+        default: 10
+      - name: heroSubtitle
+        label: Hero Subtitle
+        type: text
+        required: false
+      - name: featuredImage
+        label: Featured Image
+        component: featuredImage
+      - name: seo
+        label: SEO Metadata
+        component: seo
+      - name: draft
+        label: Draft
+        type: boolean
+        default: false
+      - name: body
+        label: Page Content
+        type: rich-text
+        options:
+          media: images
+
+  - name: siteSettings
+    label: Site Settings
+    type: file
+    path: src/data/site.json
+    format: json
+    fields:
+      - name: siteName
+        label: Site Name
+        type: string
+        required: true
+      - name: primaryKeyword
+        label: Primary Keyword
+        type: string
+        required: true
+      - name: defaultMetaDescription
+        label: Default Meta Description
+        type: text
+        required: true
+      - name: phone
+        label: Phone Number
+        type: string
+      - name: email
+        label: Email Address
+        type: string
+      - name: cityOrRegion
+        label: City or Region
+        type: string
+      - name: web3formsAccessKey
+        label: Web3Forms Access Key
+        type: string
+      - name: defaultOgImage
+        label: Default OG Image
+        type: image
+        options:
+          media: images
+      - name: logo
+        label: Site Logo
+        type: image
+        options:
+          media: images

@@ -1,0 +1,250 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../data/site.json';
+
+const seo = {
+  metaTitle: `Contact & Inquiries | ${site.siteName}`,
+  metaDescription: `Get in touch with ${site.siteName}. Inquire about rare box allocations, curbside pickup, event cigar bars, humidor inventory, and general questions.`,
+  primaryKeyword: site.primaryKeyword,
+  secondaryKeywords: ['Whitefish smoke shop contact', 'cigar shop Whitefish MT', 'premium cigars Montana contact'],
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Contact', url: '/contact' },
+];
+---
+
+<BaseLayout
+  title={`Contact & Inquiries | ${site.siteName}`}
+  seo={seo}
+  breadcrumbs={breadcrumbs}
+>
+  <div class="py-12 sm:py-16 lg:py-20 bg-[#fbf9f6]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Page Header -->
+      <header class="max-w-3xl mb-12 space-y-3">
+        <nav class="flex items-center gap-2 text-xs text-[#78716c] font-medium" aria-label="Breadcrumb">
+          <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+          <span>/</span>
+          <span class="text-[#1c1917]" aria-current="page">contact</span>
+        </nav>
+        
+        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] font-normal">
+          Contact Our Shop
+        </h1>
+        <p class="font-serif text-lg text-[#78716c] italic font-light leading-relaxed">
+          Whether you want to inquire about rare box allocations, wedding cigar packages, or current humidor inventory, we are at your service.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left: Contact Details & Hours -->
+        <div class="lg:col-span-5 space-y-8">
+          
+          <div class="p-8 rounded-2xl bg-[#ffffff] border border-[#e9e3da] shadow-sm space-y-6">
+            <h2 class="font-serif text-2xl font-normal text-[#1c1917]">
+              Shop &amp; Humidor Details
+            </h2>
+
+            <div class="space-y-4 text-sm text-[#57534e]">
+              <div>
+                <strong class="block text-[#1c1917] font-medium mb-1">Physical Location</strong>
+                <span class="block text-[#57534e]">3555 US-93</span>
+                <span class="block text-[#57534e]">Kalispell, MT 59901</span>
+                {site.googleMapsUrl && (
+                  <a
+                    href={site.googleMapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="mt-2.5 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-semibold bg-[#f1ede6] text-[#1c1917] hover:bg-[#1c1917] hover:text-[#fbf9f6] transition-colors border border-[#e2dcd3]"
+                  >
+                    <span>Get Driving Directions</span>
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+
+              {site.phone && (
+                <div>
+                  <strong class="block text-[#1c1917] font-medium">Phone Support</strong>
+                  <a href={`tel:${site.phone.replace(/[^0-9]/g, '')}`} class="text-[#1c1917] hover:underline transition-colors">
+                    {site.phone}
+                  </a>
+                </div>
+              )}
+
+              {site.email && (
+                <div>
+                  <strong class="block text-[#1c1917] font-medium">Direct Email</strong>
+                  <a href={`mailto:${site.email}`} class="text-[#1c1917] hover:underline transition-colors break-all">
+                    {site.email}
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <!-- Hours of Operation -->
+            <div class="pt-6 border-t border-[#f7f4ef] space-y-2 text-xs">
+              <span class="font-semibold text-[#1c1917] uppercase tracking-wider block">
+                Store &amp; Humidor Hours
+              </span>
+              <div class="flex justify-between text-[#78716c]">
+                <span>Monday – Friday:</span>
+                <span class="text-[#1c1917]">8:00 AM – 8:00 PM</span>
+              </div>
+              <div class="flex justify-between text-[#78716c]">
+                <span>Saturday:</span>
+                <span class="text-[#1c1917]">10:00 AM – 9:00 PM</span>
+              </div>
+              <div class="flex justify-between text-[#78716c]">
+                <span>Sunday:</span>
+                <span class="text-[#1c1917]">10:00 AM – 6:00 PM</span>
+              </div>
+              <div class="pt-2 text-[11px] text-[#a8a29e] italic">
+                * Curbside pickup and box allocations available upon request.
+              </div>
+            </div>
+
+          </div>
+
+          <div class="p-6 rounded-2xl bg-[#ffffff] border border-[#e9e3da] text-xs text-[#78716c] leading-relaxed shadow-sm">
+            <strong class="text-[#1c1917] block text-sm font-serif mb-1">Notice on Age Requirements</strong>
+            Montana law strictly requires customers to be 21 years of age or older to enter retail tobacco facilities or purchase cigar accessories. Valid government-issued photo ID is required upon entry.
+          </div>
+
+        </div>
+
+        <!-- Right: Clean Boutique Contact Form -->
+        <div class="lg:col-span-7">
+          <div class="p-8 sm:p-10 rounded-2xl bg-[#ffffff] border border-[#e9e3da] shadow-sm">
+            
+            <h2 class="font-serif text-2xl font-normal text-[#1c1917] mb-2">
+              Send an Inquiry
+            </h2>
+            <p class="text-sm text-[#78716c] mb-8 font-light">
+              Fill out the form below, and our staff will respond within 24 hours.
+            </p>
+
+            <form
+              action="https://api.web3forms.com/submit"
+              method="POST"
+              class="space-y-6"
+            >
+              <!-- Web3Forms Access Key from site.json -->
+              <input type="hidden" name="access_key" value={site.web3formsAccessKey} />
+              
+              <!-- Anti-Spam Honeypot Botcheck -->
+              <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+              
+              <!-- Subject line -->
+              <input type="hidden" name="subject" value={`Website Inquiry from ${site.siteName}`} />
+              <input type="hidden" name="from_name" value={site.siteName} />
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Name -->
+                <div>
+                  <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2">
+                    Full Name <span class="text-red-700">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="e.g. John Miller"
+                    class="w-full px-4 py-3 rounded-md bg-[#fbf9f6] border border-[#e9e3da] text-[#1c1917] placeholder-[#a8a29e] focus:outline-none focus:border-[#1c1917] transition-colors text-sm"
+                  />
+                </div>
+
+                <!-- Email -->
+                <div>
+                  <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2">
+                    Email Address <span class="text-red-700">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="john@example.com"
+                    class="w-full px-4 py-3 rounded-md bg-[#fbf9f6] border border-[#e9e3da] text-[#1c1917] placeholder-[#a8a29e] focus:outline-none focus:border-[#1c1917] transition-colors text-sm"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Phone -->
+                <div>
+                  <label for="phone" class="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="(406) 555-0100"
+                    class="w-full px-4 py-3 rounded-md bg-[#fbf9f6] border border-[#e9e3da] text-[#1c1917] placeholder-[#a8a29e] focus:outline-none focus:border-[#1c1917] transition-colors text-sm"
+                  />
+                </div>
+
+                <!-- Interest Type -->
+                <div>
+                  <label for="interest" class="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2">
+                    Topic of Interest
+                  </label>
+                  <select
+                    id="interest"
+                    name="interest"
+                    class="w-full px-4 py-3 rounded-md bg-[#fbf9f6] border border-[#e9e3da] text-[#1c1917] focus:outline-none focus:border-[#1c1917] transition-colors text-sm"
+                  >
+                    <option value="General Inquiry">General Inquiry / Visiting</option>
+                    <option value="Box Purchase / Allocation">Box Purchase / Special Order</option>
+                    <option value="Wedding / Event Cigar Bar">Wedding / Event Cigar Package</option>
+                    <option value="Curbside Pickup Request">Curbside Pickup Request</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div>
+                <label for="message" class="block text-xs font-semibold uppercase tracking-wider text-[#1c1917] mb-2">
+                  Message / Details <span class="text-red-700">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  required
+                  placeholder="Tell us about your event, locker preferences, or cigar questions..."
+                  class="w-full px-4 py-3 rounded-md bg-[#fbf9f6] border border-[#e9e3da] text-[#1c1917] placeholder-[#a8a29e] focus:outline-none focus:border-[#1c1917] transition-colors text-sm"
+                ></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <div>
+                <button
+                  type="submit"
+                  class="w-full inline-flex items-center justify-center px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider bg-[#1c1917] text-[#fbf9f6] hover:bg-[#3d2b21] cursor-pointer transition-colors"
+                >
+                  Submit Inquiry
+                </button>
+                <p class="text-[11px] text-[#a8a29e] text-center mt-3">
+                  Protected by anti-spam botcheck. We respect your privacy.
+                </p>
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

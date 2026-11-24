@@ -1,0 +1,174 @@
+---
+import site from '../data/site.json';
+import { getPublishedPages, getPageSlug } from '../utils/content';
+
+const pages = await getPublishedPages();
+const navPages = pages.filter((page) => page.data.showInNav !== false);
+
+const currentPath = Astro.url.pathname;
+const isActive = (path: string) => {
+  if (path === '/') return currentPath === '/' || currentPath === '';
+  return currentPath.startsWith(path);
+};
+---
+
+<header class="sticky top-0 z-50 bg-[#fbf9f6]/95 backdrop-blur-md border-b border-[#e9e3da] transition-colors">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-[#3d2b21] rounded-lg p-1">
+        <img
+          src="/images/logo-new-smoke-shop.png"
+          alt={site.siteName}
+          class="h-9 sm:h-10 w-auto object-contain hover:opacity-95 transition-opacity"
+          loading="eager"
+        />
+      </a>
+
+      <!-- Desktop Nav Links (Clean, Lowercase, Organic) -->
+      <nav class="hidden md:flex items-center gap-8" aria-label="Main Navigation">
+        <a
+          href="/"
+          class={`text-sm font-medium transition-colors ${
+            isActive('/')
+              ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
+              : 'text-[#57534e] hover:text-[#1c1917]'
+          }`}
+        >
+          home
+        </a>
+
+        <a
+          href="/cigars"
+          class={`text-sm font-medium transition-colors ${
+            isActive('/cigars')
+              ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
+              : 'text-[#57534e] hover:text-[#1c1917]'
+          }`}
+        >
+          cigars
+        </a>
+
+        {navPages.map((page) => {
+          const slug = getPageSlug(page);
+          const href = `/${slug}`;
+          return (
+            <a
+              href={href}
+              class={`text-sm font-medium transition-colors ${
+                isActive(href)
+                  ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
+                  : 'text-[#57534e] hover:text-[#1c1917]'
+              }`}
+            >
+              {slug === 'about' ? 'about' : slug === 'services' ? 'services' : page.data.title.toLowerCase()}
+            </a>
+          );
+        })}
+
+        <a
+          href="/blog"
+          class={`text-sm font-medium transition-colors ${
+            isActive('/blog')
+              ? 'text-[#1c1917] font-semibold underline underline-offset-8 decoration-1 decoration-[#3d2b21]'
+              : 'text-[#57534e] hover:text-[#1c1917]'
+          }`}
+        >
+          journal
+        </a>
+      </nav>
+
+      <!-- Desktop Action CTA -->
+      <div class="hidden md:flex items-center gap-4">
+        {site.phone && (
+          <a
+            href={`tel:${site.phone.replace(/[^0-9]/g, '')}`}
+            class="text-xs uppercase tracking-wider text-[#78716c] hover:text-[#1c1917] transition-colors"
+          >
+            {site.phone}
+          </a>
+        )}
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center px-5 py-2.5 rounded-md text-xs font-semibold tracking-wider bg-[#1c1917] text-[#fbf9f6] hover:bg-[#3d2b21] transition-colors"
+        >
+          Contact
+        </a>
+      </div>
+
+      <!-- Mobile Pure-CSS Toggle Button (Zero JS) -->
+      <div class="flex md:hidden items-center">
+        <label for="mobile-menu-toggle" class="p-2 text-[#44403c] hover:text-[#1c1917] cursor-pointer focus:outline-none" aria-label="Toggle navigation menu">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </label>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile Menu Dropdown (Controlled via CSS peer) -->
+  <input type="checkbox" id="mobile-menu-toggle" class="peer hidden" aria-hidden="true" />
+  <div class="hidden peer-checked:block md:hidden border-t border-[#e9e3da] bg-[#fbf9f6] px-6 pt-4 pb-8 space-y-3">
+    <a
+      href="/"
+      class={`block text-base font-medium ${
+        isActive('/') ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
+      }`}
+    >
+      home
+    </a>
+
+    <a
+      href="/cigars"
+      class={`block text-base font-medium ${
+        isActive('/cigars') ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
+      }`}
+    >
+      cigars
+    </a>
+
+    {navPages.map((page) => {
+      const slug = getPageSlug(page);
+      const href = `/${slug}`;
+      return (
+        <a
+          href={href}
+          class={`block text-base font-medium ${
+            isActive(href) ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
+          }`}
+        >
+          {slug === 'about' ? 'about' : slug === 'services' ? 'services' : page.data.title.toLowerCase()}
+        </a>
+      );
+    })}
+
+    <a
+      href="/blog"
+      class={`block text-base font-medium ${
+        isActive('/blog') ? 'text-[#1c1917] font-bold' : 'text-[#57534e]'
+      }`}
+    >
+      journal
+    </a>
+
+    <div class="pt-4 border-t border-[#e9e3da] flex flex-col gap-3">
+      {site.phone && (
+        <a
+          href={`tel:${site.phone.replace(/[^0-9]/g, '')}`}
+          class="text-sm text-[#78716c]"
+        >
+          Call: {site.phone}
+        </a>
+      )}
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center px-4 py-3 rounded-md text-sm font-semibold bg-[#1c1917] text-[#fbf9f6]"
+      >
+        Contact
+      </a>
+    </div>
+  </div>
+</header>

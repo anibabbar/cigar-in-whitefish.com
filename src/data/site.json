@@ -1,0 +1,18 @@
+{
+  "siteName": "555 Smoke Shop",
+  "primaryKeyword": "Cigars in Whitefish, MT",
+  "defaultMetaDescription": "Looking for premium cigars in Whitefish, MT? 555 Smoke Shop is downtown Whitefish's premier cigar shop and walk-in Spanish cedar humidor featuring 26+ top brands.",
+  "phone": "(406) 555-0199",
+  "email": "concierge@555smokeshop.com",
+  "address": "3555 US-93, Kalispell, MT 59901",
+  "streetAddress": "3555 US-93",
+  "city": "Kalispell",
+  "state": "MT",
+  "zip": "59901",
+  "cityOrRegion": "Whitefish & Kalispell, Montana",
+  "hoursText": "Mon-Fri: 8AM-8PM | Sat: 10AM-9PM | Sun: 10AM-6PM",
+  "googleMapsUrl": "https://www.google.com/maps/dir/?api=1&destination=3555+US-93,+Kalispell,+MT+59901",
+  "web3formsAccessKey": "YOUR_WEB3FORMS_ACCESS_KEY_HERE",
+  "defaultOgImage": "/images/uploads/hero-humidor.jpg",
+  "logo": "/images/logo-new-smoke-shop.png"
+}

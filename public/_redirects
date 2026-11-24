@@ -1,0 +1,6 @@
+# Cloudflare Pages / Netlify Redirects File
+# Format: /source /destination [status code]
+
+# Example permanent redirects (301)
+# /old-cigar-guide /blog/cigar-guide 301
+# /contact-us /contact 301

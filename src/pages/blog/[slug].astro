@@ -1,0 +1,172 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import site from '../../data/site.json';
+import { getPublishedBlogPosts, getPostSlug } from '../../utils/content';
+import { getReadingTime } from '../../utils/readingTime';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: getPostSlug(post) },
+    props: { post, allPosts: posts },
+  }));
+}
+
+const { post, allPosts } = Astro.props;
+const { Content } = await render(post);
+const slug = getPostSlug(post);
+const readingTime = getReadingTime(post.body || '');
+
+const formattedPubDate = new Intl.DateTimeFormat('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+}).format(new Date(post.data.pubDate));
+
+const formattedUpdatedDate = post.data.updatedDate
+  ? new Intl.DateTimeFormat('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(new Date(post.data.updatedDate))
+  : null;
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Journal', url: '/blog' },
+  { name: post.data.title, url: `/blog/${slug}` },
+];
+
+const relatedPosts = allPosts
+  .filter((p) => getPostSlug(p) !== slug)
+  .slice(0, 2);
+---
+
+<BaseLayout
+  title={post.data.title}
+  seo={post.data.seo}
+  featuredImage={post.data.featuredImage}
+  type="article"
+  pubDate={post.data.pubDate}
+  updatedDate={post.data.updatedDate}
+  breadcrumbs={breadcrumbs}
+>
+  <article class="py-12 sm:py-16 lg:py-20 bg-[#fbf9f6]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs text-[#78716c] mb-8 font-medium" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+        <span>/</span>
+        <a href="/blog" class="hover:text-[#1c1917] transition-colors">journal</a>
+        <span>/</span>
+        <span class="text-[#1c1917] truncate" aria-current="page">{post.data.title}</span>
+      </nav>
+
+      <!-- Post Header -->
+      <header class="space-y-4 mb-10 pb-8 border-b border-[#e9e3da]">
+        
+        {post.data.seo?.primaryKeyword && (
+          <span class="text-xs font-semibold uppercase tracking-widest text-[#78716c]">
+            {post.data.seo.primaryKeyword}
+          </span>
+        )}
+
+        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] font-normal leading-tight">
+          {post.data.title}
+        </h1>
+
+        <!-- Metadata row -->
+        <div class="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-[#78716c] pt-2">
+          <span class="text-[#1c1917] font-medium">{site.siteName}</span>
+          <span>•</span>
+          <time datetime={new Date(post.data.pubDate).toISOString()}>
+            Published {formattedPubDate}
+          </time>
+          {formattedUpdatedDate && (
+            <>
+              <span>•</span>
+              <span>Updated {formattedUpdatedDate}</span>
+            </>
+          )}
+          <span>•</span>
+          <span>{readingTime}</span>
+        </div>
+
+      </header>
+
+      <!-- Featured Image with Alt & Caption -->
+      {post.data.featuredImage && (
+        <figure class="mb-12 rounded-2xl overflow-hidden border border-[#e9e3da] bg-stone-100 shadow-sm">
+          <img
+            src={post.data.featuredImage.src}
+            alt={post.data.featuredImage.alt || post.data.title}
+            class="w-full aspect-[16/9] object-cover"
+            loading="eager"
+          />
+          {post.data.featuredImage.caption && (
+            <figcaption class="p-3.5 text-center text-xs text-[#78716c] italic bg-[#ffffff] border-t border-[#e9e3da]">
+              {post.data.featuredImage.caption}
+            </figcaption>
+          )}
+        </figure>
+      )}
+
+      <!-- Rich Typography Body -->
+      <div class="prose prose-stone prose-lg max-w-none prose-headings:font-serif prose-headings:font-normal prose-headings:text-[#1c1917] prose-p:text-[#44403c] prose-p:leading-relaxed prose-a:text-[#1c1917] prose-a:underline hover:prose-a:text-[#78716c] prose-li:text-[#44403c] prose-blockquote:border-[#1c1917] prose-blockquote:text-[#57534e]">
+        <Content />
+      </div>
+
+      <!-- Keyword Tags Pill Section -->
+      {post.data.seo?.secondaryKeywords && post.data.seo.secondaryKeywords.length > 0 && (
+        <div class="mt-12 pt-8 border-t border-[#e9e3da]">
+          <span class="text-xs uppercase tracking-wider text-[#78716c] font-semibold block mb-3">
+            Related Topics
+          </span>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 rounded-md text-xs bg-[#ffffff] text-[#1c1917] border border-[#e9e3da]">
+              #{post.data.seo.primaryKeyword || site.primaryKeyword}
+            </span>
+            {post.data.seo.secondaryKeywords.map((kw) => (
+              <span class="px-3 py-1 rounded-md text-xs bg-[#ffffff] text-[#78716c] border border-[#e9e3da]">
+                #{kw}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Author / About Box -->
+      <div class="mt-12 p-8 rounded-2xl bg-[#ffffff] border border-[#e9e3da] shadow-sm flex flex-col sm:flex-row items-center gap-6">
+        <div class="w-14 h-14 rounded-full bg-[#1c1917] text-[#fbf9f6] shrink-0 flex items-center justify-center font-serif text-xl">
+          5
+        </div>
+        <div class="space-y-1 text-center sm:text-left">
+          <h3 class="font-serif text-lg font-normal text-[#1c1917]">
+            About {site.siteName}
+          </h3>
+          <p class="text-xs sm:text-sm text-[#78716c] leading-relaxed font-light">
+            Located in downtown Whitefish, Montana, our tobacconists specialize in artisanal hand-rolled cigars, climate-controlled humidors, and everyday classics for locals and travelers.
+          </p>
+        </div>
+      </div>
+
+      <!-- Related Articles -->
+      {relatedPosts.length > 0 && (
+        <section class="mt-20 pt-12 border-t border-[#e9e3da]">
+          <h2 class="font-serif text-2xl font-normal text-[#1c1917] mb-8">
+            Related Articles
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {relatedPosts.map((related) => (
+              <BlogCard post={related} />
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </article>
+</BaseLayout>

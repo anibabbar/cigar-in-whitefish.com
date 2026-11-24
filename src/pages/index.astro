@@ -1,0 +1,533 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogCard from '../components/BlogCard.astro';
+import site from '../data/site.json';
+import cigarInventory from '../data/cigarInventory.json';
+import { getPublishedBlogPosts } from '../utils/content';
+
+const allPosts = await getPublishedBlogPosts();
+const latestPosts = allPosts.slice(0, 3);
+
+const brands = [
+  {
+    name: 'Arturo Fuente',
+    logo: '/images/brands/arturo-fuente.png',
+    desc: 'Renowned for their unsurpassed quality and rich history. Established in 1912, the brand has consistently been rated among the best cigars in the world.',
+  },
+  {
+    name: 'Plasencia Cigars',
+    logo: '/images/brands/plasencia.png',
+    desc: 'High-quality tobacco and craftsmanship for over 150 years. Premium tobacco grown in Nicaragua and Honduras, recognized worldwide.',
+  },
+  {
+    name: 'Rocky Patel Cigars',
+    logo: '/images/brands/rocky-patel.png',
+    desc: 'Celebrated for its complex flavor, uncompromising quality, and hand-rolled consistency, making it a favorite of cigar enthusiasts.',
+  },
+  {
+    name: 'EP Carrillo Cigars',
+    logo: '/images/brands/ep-carrillo.png',
+    desc: 'Created by master blender Ernesto Perez-Carrillo, dedicated to excellence, innovation, and an extensive portfolio of award-winning wrappers.',
+  },
+  {
+    name: 'Oliva Cigars',
+    logo: '/images/brands/oliva.png',
+    desc: 'Handcrafted premium cigars since 1886. The Oliva family offers legendary blends including the world-famous Oliva Serie V Melanio.',
+  },
+  {
+    name: 'H. Upmann Cigars',
+    logo: '/images/brands/h-upmann.png',
+    desc: 'One of the oldest and most respected heritage brands, originating in 1844. Known for smooth, medium-strength profiles and rich aromas.',
+  },
+];
+
+const faqItems = [
+  {
+    question: `What cigar brands do you carry in Whitefish, Montana?`,
+    answer: `We stock the world's most sought-after handmade premium cigars including Padrón, Arturo Fuente (OpusX), Davidoff, Plasencia, Oliva, My Father Cigars, Romeo y Julieta, Montecristo, Ashton, Cohiba, Rocky Patel, Perdomo, Tatuaje, NUB, Acid, Tatiana, and Havana Honeys. We also carry full lines of classic regular cigars including Backwoods, Black & Mild, Swisher Sweets, Game, and Dutch Masters.`,
+  },
+  {
+    question: `Where can I buy premium cigars in Whitefish, Montana?`,
+    answer: `555 Smoke Shop is located in downtown Whitefish, Montana, offering Flathead Valley's premier walk-in Spanish cedar humidor. We stock over 21 world-class handmade cigar brands including Padrón, Arturo Fuente, Davidoff, Oliva, and Plasencia, rested at an optimal 67% relative humidity.`,
+  },
+  {
+    question: `What is the best cigar shop in Whitefish near Big Mountain and Glacier National Park?`,
+    answer: `555 Smoke Shop is the leading cigar shop and smoke shop in Whitefish, conveniently located on the way to Whitefish Mountain Resort (Big Mountain) and Glacier National Park. We provide travel humidification packs, custom cutters, torches, and curbside pickup for hikers, skiers, and visitors.`,
+  },
+  {
+    question: `Do you have Backwoods, Black & Mild, and sweet cigarillos in stock?`,
+    answer: `Yes! Alongside our boutique walk-in humidor, we carry complete flavor variants of Backwoods (Honey Bourbon, Sweet Aromatic, Russian Cream, Banana, etc.), Black & Mild (Wood & Plastic Tip, Jazz, Wine, Apple), Swisher Sweets, Game natural leaf, and Dutch Masters.`,
+  },
+  {
+    question: `How does Montana's alpine elevation affect cigar smoking?`,
+    answer: `Whitefish sits at roughly 3,000 feet elevation with dry mountain air. Cigars stored below 65% humidity burn hot and dry out rapidly. We store all our inventory at an optimized 67% relative humidity, ensuring an even burn, rich oily wrapper preservation, and cool smoke.`,
+  },
+  {
+    question: `Do you have an on-site smoking lounge?`,
+    answer: `555 Smoke Shop is a specialized retail smoke shop and walk-in humidor. We do not operate an on-site smoking lounge, allowing us to focus entirely on maintaining Montana's finest humidor conditions, rare box allocations, personalized customer service, and fast curbside pickup.`,
+  },
+  {
+    question: `Can I buy full boxes of cigars or arrange wedding cigar packages in Whitefish?`,
+    answer: `Absolutely! We offer factory box discounts, special box allocations, and bespoke wedding and event cigar packages across Whitefish, Kalispell, and the Flathead Valley, complete with cutters, torches, and custom cigar band options.`,
+  },
+];
+---
+
+<BaseLayout
+  title={`Cigars in Whitefish, MT | ${site.siteName} & Walk-In Humidor`}
+  description={`Looking for premium cigars in Whitefish, MT? ${site.siteName} is downtown Whitefish's premier cigar shop and walk-in Spanish cedar humidor featuring 26+ top brands.`}
+  faq={faqItems}
+>
+  <!-- HERO HEADER (Leaf & Cloud Style) -->
+  <section class="relative bg-[#fbf9f6] pt-12 pb-16 lg:pt-16 lg:pb-24 border-b border-[#e9e3da]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <div class="max-w-4xl mx-auto mb-10">
+        <p class="mb-3 text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+          {site.siteName} • Downtown Whitefish, Montana
+        </p>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#1c1917] tracking-tight mb-4">
+          Cigars in Whitefish, Montana
+        </h1>
+        <p class="font-serif text-xl sm:text-2xl text-[#57534e] italic font-light max-w-2xl mx-auto leading-relaxed">
+          Downtown Whitefish's Premier Walk-In Humidor
+        </p>
+        <p class="mt-4 text-sm sm:text-base text-[#78716c] max-w-2xl mx-auto leading-relaxed">
+          Step into our aromatic Spanish cedar walk-in humidor. From rare Arturo Fuente OpusX, aged Padrón 1964 Anniversario, and luxury Davidoff vitolas to classic everyday natural leaf wraps, discover Montana's finest curated tobacco selection rested at an optimal 67% humidity.
+        </p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3 text-xs font-medium text-[#78716c]">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f1ede6] border border-[#e2dcd3]">
+            ✓ Spanish Cedar Walk-In Humidor
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f1ede6] border border-[#e2dcd3]">
+            ✓ 26+ World-Class Brands
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f1ede6] border border-[#e2dcd3]">
+            ✓ Rare Box Allocations &amp; Curbside Pickup
+          </span>
+        </div>
+      </div>
+
+      <!-- Real Photography Hero Showcase Grid (Clean Non-Overlapping Layout) -->
+      <div class="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-4 lg:gap-6">
+        <!-- Main Large Showcase Image (Left, Spanning 2 Rows) -->
+        <div class="md:col-span-7 lg:col-span-8 md:row-span-2 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100 aspect-[16/10] md:aspect-auto">
+          <img
+            src="/images/uploads/hero-humidor.jpg"
+            alt="Hand-selected premium cigars in Whitefish MT humidor at 555 Smoke Shop"
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Right Column Top: Walk-In Humidor -->
+        <div class="md:col-span-5 lg:col-span-4 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100 aspect-[16/10]">
+          <img
+            src="/images/uploads/walkin-humidor.jpg"
+            alt="Walk-in Spanish cedar humidor shelving with boutique cigars in Whitefish Montana"
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Right Column Bottom: Store Interior -->
+        <div class="md:col-span-5 lg:col-span-4 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100 aspect-[16/10]">
+          <img
+            src="/images/uploads/shop-interior.jpg"
+            alt="555 Smoke Shop storefront interior in downtown Whitefish MT"
+            class="w-full h-full object-cover"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDITORIAL SPOTLIGHT 1: PADRÓN (Leaf & Cloud Style) -->
+  <section class="py-20 lg:py-28 bg-[#ffffff] border-b border-[#e9e3da]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <div class="lg:col-span-6 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100">
+          <img
+            src="/images/uploads/padron-showcase.jpg"
+            alt="Montana's largest selection of Padrón cigars in Whitefish MT at 555 Smoke Shop"
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="lg:col-span-6 space-y-4">
+          <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+            Montana's Largest Padrón Collection
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal">
+            Padrón Cigars in Whitefish, MT
+          </h2>
+          <p class="text-[#57534e] text-base sm:text-lg leading-relaxed">
+            We feature the largest selection of Padrón cigars in Montana. Founded in 1964, Padrón has a timeless legacy of producing world-renowned cigars using aged Nicaraguan sun-grown tobaccos. From the 1964 Anniversary and 1926 Serie to the Family Reserve and Dámaso, every box in our Whitefish humidor is rested at an optimal 67% humidity to ensure an effortless, cool draw.
+          </p>
+          <div class="pt-4">
+            <a
+              href="/contact"
+              class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
+            >
+              Inquire about current Padrón box allocations &rarr;
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITORIAL SPOTLIGHT 2: OPUS X (Leaf & Cloud Style) -->
+  <section class="py-20 lg:py-28 bg-[#fbf9f6] border-b border-[#e9e3da]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <div class="lg:col-span-6 order-2 lg:order-1 space-y-4">
+          <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+            Handcrafted with 100% Dominican Chateau de la Fuente Tobacco
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal">
+            Arturo Fuente &amp; OpusX in Whitefish
+          </h2>
+          <p class="text-[#57534e] text-base sm:text-lg leading-relaxed">
+            Arturo Fuente OpusX cigars are among the most revered and coveted vitolas in the world, celebrated for their rare Dominican shade-grown wrappers and opulent spice notes. Perfect for celebratory Flathead Valley occasions or connoisseur collectors, our Whitefish cigar shop is honored to receive direct allocations of rare Fuente vitolas.
+          </p>
+          <div class="pt-4">
+            <a
+              href="/services"
+              class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
+            >
+              Explore rare vitolas &amp; special box orders &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 order-1 lg:order-2 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100">
+          <img
+            src="/images/uploads/opusx-showcase.jpg"
+            alt="Arturo Fuente Opus X rare cigars at Whitefish Montana cigar shop"
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANDS GRID: "A Journey of Taste and Tradition" (Leaf & Cloud Style) -->
+  <section class="py-20 lg:py-28 bg-[#ffffff] border-b border-[#e9e3da]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal">
+          A Journey of Taste and Tradition
+        </h2>
+        <p class="text-[#78716c] text-base">
+          Curated portfolio of the world's most historic family-owned tobacco blenders.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {brands.map((brand) => (
+          <div class="p-8 rounded-2xl bg-[#fbf9f6] border border-[#e9e3da] flex flex-col justify-between hover:border-[#c5b5a2] transition-colors">
+            <div class="space-y-4">
+              <div class="h-16 flex items-center mb-2">
+                <img
+                  src={brand.logo}
+                  alt={`${brand.name} logo`}
+                  class="max-h-12 w-auto object-contain filter grayscale contrast-125 opacity-85"
+                  loading="lazy"
+                />
+              </div>
+              <h3 class="font-serif text-xl font-bold text-[#1c1917]">
+                {brand.name}
+              </h3>
+              <p class="text-sm text-[#57534e] leading-relaxed">
+                {brand.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- COMPLETE HUMIDOR & CIGAR INVENTORY SECTION -->
+  <section class="py-20 lg:py-28 bg-[#fbf9f6] border-b border-[#e9e3da]" id="inventory">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+          Curated In-Store Selection
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal">
+          The Best Cigars in Whitefish, Montana
+        </h2>
+        <p class="text-[#78716c] text-base font-light">
+          Montana's most comprehensive walk-in humidor and smoke shop inventory. Featuring 21 handmade premium lines and 5 everyday classic brands, kept fresh at 67% relative humidity.
+        </p>
+      </div>
+
+      <!-- Category 1: Handmade Premium Cigars -->
+      <div class="mb-20">
+        <div class="flex items-center justify-between gap-4 mb-8 pb-3 border-b border-[#e9e3da]">
+          <h3 class="font-serif text-2xl text-[#1c1917] font-normal">
+            Handmade Premium Cigars in Whitefish
+          </h3>
+          <a
+            href="/cigars"
+            class="text-xs uppercase tracking-wider text-[#1c1917] font-semibold bg-[#ffffff] px-4 py-1.5 rounded-full border border-[#e9e3da] hover:border-[#1c1917] transition-colors"
+          >
+            View All {cigarInventory.handmadePremium.length} Brands &rarr;
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cigarInventory.handmadePremium.map((cigar) => (
+            <a
+              href={`/cigars/${cigar.slug}`}
+              class="p-6 rounded-xl bg-[#ffffff] border border-[#e9e3da] hover:border-[#1c1917] transition-all flex flex-col justify-between shadow-xs group hover:shadow-sm"
+            >
+              <div class="space-y-2">
+                <div class="flex items-start justify-between gap-2">
+                  <h4 class="font-serif text-lg font-bold text-[#1c1917] group-hover:text-[#835f47] transition-colors">
+                    {cigar.name}
+                  </h4>
+                  <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-[#fbf9f6] text-[#78716c] border border-[#e9e3da] shrink-0 font-medium">
+                    {cigar.category}
+                  </span>
+                </div>
+                <p class="text-xs font-semibold text-[#835f47]">
+                  {cigar.tagline}
+                </p>
+                <p class="text-xs text-[#57534e] leading-relaxed font-light pt-1 line-clamp-3">
+                  {cigar.notes}
+                </p>
+              </div>
+              <div class="pt-3 mt-3 border-t border-[#f7f4ef] flex items-center justify-between text-[11px] font-semibold text-[#1c1917] group-hover:text-[#835f47]">
+                <span>View brand profile &amp; vitolas</span>
+                <span>&rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        
+        <p class="text-xs text-center text-[#78716c] italic mt-6">
+          * And many more boutique hand-made vitolas arriving weekly in our Spanish cedar walk-in humidor.
+        </p>
+      </div>
+
+      <!-- Category 2: Regular Cigars & Everyday Classics -->
+      <div>
+        <div class="flex items-center justify-between gap-4 mb-8 pb-3 border-b border-[#e9e3da]">
+          <h3 class="font-serif text-2xl text-[#1c1917] font-normal">
+            Everyday Classics &amp; Regular Cigars
+          </h3>
+          <span class="text-xs uppercase tracking-wider text-[#78716c] font-medium bg-[#ffffff] px-3 py-1 rounded-full border border-[#e9e3da]">
+            Fresh Natural Leaf &amp; Cigarillos
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cigarInventory.regularClassics.map((item) => (
+            <a
+              href={`/cigars/${item.slug}`}
+              class="p-6 rounded-xl bg-[#ffffff] border border-[#e9e3da] hover:border-[#1c1917] transition-all flex flex-col justify-between shadow-xs group hover:shadow-sm"
+            >
+              <div class="space-y-3">
+                <div class="flex items-start justify-between gap-2">
+                  <h4 class="font-serif text-lg font-bold text-[#1c1917] group-hover:text-[#835f47] transition-colors">
+                    {item.name}
+                  </h4>
+                  <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-[#fbf9f6] text-[#78716c] border border-[#e9e3da] shrink-0 font-medium">
+                    {item.type}
+                  </span>
+                </div>
+                <p class="text-xs text-[#57534e] leading-relaxed font-light">
+                  {item.notes || item.description}
+                </p>
+                <div class="pt-2">
+                  <span class="text-[11px] font-semibold text-[#1c1917] block mb-1.5 uppercase tracking-wider">
+                    Popular Variants:
+                  </span>
+                  <div class="flex flex-wrap gap-1.5">
+                    {item.variants.slice(0, 5).map((variant) => (
+                      <span class="text-[10px] px-2 py-0.5 rounded bg-[#fbf9f6] text-[#57534e] border border-[#e9e3da]">
+                        {variant}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div class="pt-3 mt-3 border-t border-[#f7f4ef] flex items-center justify-between text-[11px] font-semibold text-[#1c1917] group-hover:text-[#835f47]">
+                <span>View all flavors &amp; packs</span>
+                <span>&rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT OUR SHOP SECTION (Leaf & Cloud Style) -->
+  <section class="py-20 lg:py-28 bg-[#ffffff] border-b border-[#e9e3da]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <div class="lg:col-span-6 space-y-6">
+          <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+            Historic Downtown Tobacconist
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal">
+            Your Premier Cigar Shop in Whitefish, MT
+          </h2>
+          <div class="space-y-4 text-[#57534e] text-base leading-relaxed">
+            <p>
+              Located in the heart of historic downtown Whitefish, Montana, <strong>555 Smoke Shop</strong> is the Flathead Valley's premier destination for fine cigars, walk-in humidor storage, and specialized tobacco accessories.
+            </p>
+            <p>
+              Whether you are an alpine visitor heading up to Whitefish Mountain Resort (Big Mountain), taking in an afternoon on Whitefish Lake, or preparing for an outdoor adventure in Glacier National Park, our knowledgeable tobacconists are ready to guide you to the perfect vitola. We stock everything from ultra-rare OpusX, Padrón 1926, and Davidoff to fresh packs of Backwoods, Black &amp; Mild, and Game wraps.
+            </p>
+            <p>
+              Step inside our store, inhale the rich cedar aroma of our walk-in humidor, and discover why locals and visitors consider us the best cigar shop in Whitefish.
+            </p>
+          </div>
+          <div class="pt-2">
+            <a
+              href="/about"
+              class="inline-flex items-center gap-2 text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
+            >
+              Learn More About Our Whitefish Shop &rarr;
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-6 rounded-2xl overflow-hidden shadow-sm border border-[#e9e3da] bg-stone-100">
+          <img
+            src="/images/uploads/shop-interior.jpg"
+            alt="Inside 555 Smoke Shop - premier cigar shop in downtown Whitefish MT"
+            class="w-full aspect-[4/3] object-cover"
+            loading="lazy"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WHITEFISH JOURNAL / LATEST BLOG POSTS -->
+  <section class="py-20 lg:py-28 bg-[#fbf9f6] border-b border-[#e9e3da]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+            The Journal
+          </span>
+          <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal mt-1">
+            Guides &amp; Tasting Notes
+          </h2>
+        </div>
+        <a
+          href="/blog"
+          class="text-sm font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
+        >
+          View All Articles &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {latestPosts.map((post) => (
+          <BlogCard post={post} />
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ ACCORDION (Pure Zero-JS HTML details/summary + FAQPage Schema) -->
+  <section class="py-20 lg:py-28 bg-[#ffffff] border-b border-[#e9e3da]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16 space-y-2">
+        <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold">
+          Frequently Asked Questions
+        </span>
+        <h2 class="font-serif text-3xl sm:text-4xl text-[#1c1917] font-normal">
+          Everything You Need to Know About Cigars in Whitefish
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        {faqItems.map((item, index) => (
+          <details
+            class="group bg-[#fbf9f6] border border-[#e9e3da] rounded-xl overflow-hidden transition-colors"
+            open={index === 0}
+          >
+            <summary class="flex items-center justify-between p-6 text-left cursor-pointer select-none font-serif text-[#1c1917] text-lg font-medium hover:text-[#57534e] transition-colors">
+              <span class="pr-4">{item.question}</span>
+              <span class="shrink-0 text-[#78716c] transition-transform duration-200 group-open:rotate-180">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
+            </summary>
+            <div class="px-6 pb-6 pt-2 text-[#57534e] text-base leading-relaxed border-t border-[#ede7df]">
+              {item.answer}
+            </div>
+          </details>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION (Leaf & Cloud Style) -->
+  <section class="py-20 lg:py-28 bg-[#1c1917] text-[#fbf9f6] text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <h2 class="font-serif text-3xl sm:text-4xl font-normal text-[#fbf9f6]">
+        Visit Downtown Whitefish's Premier Cigar Shop Today
+      </h2>
+      <p class="text-[#d6d3d1] text-base sm:text-lg leading-relaxed font-light">
+        From rare vintage box allocations to everyday natural leaf cigars, 555 Smoke Shop is your trusted destination for cigars in Whitefish, Montana. Stop by our walk-in humidor or contact our team for quick curbside pickup.
+      </p>
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {site.googleMapsUrl ? (
+          <a
+            href={site.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider bg-[#fbf9f6] text-[#1c1917] hover:bg-[#ede7df] transition-colors inline-flex items-center justify-center gap-2"
+          >
+            <span>Get Driving Directions</span>
+            <svg class="w-4 h-4 text-[#835f47]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        ) : (
+          <a
+            href="/about"
+            class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider bg-[#fbf9f6] text-[#1c1917] hover:bg-[#ede7df] transition-colors"
+          >
+            About Us
+          </a>
+        )}
+        <a
+          href="/contact"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider border border-[#78716c] text-[#fbf9f6] hover:bg-[#262422] transition-colors"
+        >
+          Contact &amp; Hours
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,357 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import cigarInventory from '../../data/cigarInventory.json';
+import site from '../../data/site.json';
+
+export interface CigarItem {
+  slug: string;
+  name: string;
+  category: string;
+  strength: string;
+  wrapper: string;
+  tagline: string;
+  notes: string;
+  description: string;
+  humidorNote: string;
+  popularLines: string[];
+  variants?: string[];
+  tastingProfile: string[];
+  pairingSuggestion: string;
+  isPremium?: boolean;
+  type?: string;
+}
+
+export async function getStaticPaths() {
+  const allCigars: CigarItem[] = [
+    ...cigarInventory.handmadePremium.map((c) => ({ ...c, isPremium: true })),
+    ...cigarInventory.regularClassics.map((c) => ({ ...c, isPremium: false })),
+  ];
+
+  return allCigars.map((cigar) => ({
+    params: { slug: cigar.slug },
+    props: { cigar, allCigars },
+  }));
+}
+
+const { cigar, allCigars } = Astro.props as { cigar: CigarItem; allCigars: CigarItem[] };
+
+const seo = {
+  metaTitle: `${cigar.name} Cigars in Whitefish, MT | ${site.siteName}`,
+  metaDescription: `Looking to buy ${cigar.name} cigars in Whitefish, MT? ${site.siteName} stocks ${cigar.name} in our walk-in Spanish cedar humidor at 67% humidity. Box allocations & curbside pickup.`,
+  primaryKeyword: `${cigar.name} in Whitefish`,
+  secondaryKeywords: [
+    `${cigar.name} cigars Whitefish MT`,
+    `buy ${cigar.name} Whitefish`,
+    `${cigar.name} near Glacier National Park`,
+    `smoke shop Whitefish Montana`,
+  ],
+};
+
+const breadcrumbs = [
+  { name: 'Home', url: '/' },
+  { name: 'Cigars', url: '/cigars' },
+  { name: cigar.name, url: `/cigars/${cigar.slug}` },
+];
+
+// Related cigars (excluding current)
+const relatedCigars = allCigars
+  .filter((c) => c.slug !== cigar.slug)
+  .slice(0, 4);
+
+// Product / Brand Schema
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${cigar.name} Cigars in Whitefish, MT`,
+  description: cigar.description,
+  category: 'Cigars & Tobacco',
+  brand: {
+    '@type': 'Brand',
+    name: cigar.name,
+  },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    price: '15.00',
+    lowPrice: '5.00',
+    highPrice: '50.00',
+    availability: 'https://schema.org/InStock',
+    seller: {
+      '@type': 'TobaccoShop',
+      name: site.siteName,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '3555 US-93',
+        addressLocality: 'Kalispell',
+        addressRegion: 'MT',
+        postalCode: '59901',
+        addressCountry: 'US',
+      },
+    },
+  },
+};
+---
+
+<BaseLayout
+  title={`${cigar.name} Cigars in Whitefish, MT | ${site.siteName}`}
+  seo={seo}
+  breadcrumbs={breadcrumbs}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <!-- HERO HEADER (Leaf & Cloud Style) -->
+  <section class="py-12 sm:py-16 lg:py-20 bg-[#fbf9f6] border-b border-[#e9e3da]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs text-[#78716c] mb-6 font-medium" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-[#1c1917] transition-colors">home</a>
+        <span>/</span>
+        <a href="/cigars" class="hover:text-[#1c1917] transition-colors">cigars</a>
+        <span>/</span>
+        <span class="text-[#1c1917]" aria-current="page">{cigar.name.toLowerCase()}</span>
+      </nav>
+
+      <div class="space-y-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[#f1ede6] text-[#78716c] border border-[#e2dcd3] font-semibold">
+            {cigar.category}
+          </span>
+          <span class="text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[#f1ede6] text-[#78716c] border border-[#e2dcd3] font-semibold">
+            Strength: {cigar.strength}
+          </span>
+          <span class="text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-[#f1ede6] text-[#78716c] border border-[#e2dcd3] font-semibold">
+            Optimal 67% RH Storage
+          </span>
+        </div>
+
+        <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#1c1917] font-normal leading-tight">
+          {cigar.name} Cigars in Whitefish, Montana
+        </h1>
+
+        <p class="font-serif text-lg sm:text-xl text-[#78716c] italic font-light leading-relaxed">
+          {cigar.tagline}
+        </p>
+
+        <p class="text-[#57534e] text-base leading-relaxed pt-2 max-w-3xl">
+          {cigar.notes}
+        </p>
+
+        <!-- Quick Action CTAs -->
+        <div class="pt-4 flex flex-wrap gap-4 items-center">
+          {site.phone && (
+            <a
+              href={`tel:${site.phone.replace(/[^0-9]/g, '')}`}
+              class="px-6 py-3 rounded-md text-sm font-semibold tracking-wider bg-[#1c1917] text-[#fbf9f6] hover:bg-[#2c2825] transition-colors inline-flex items-center gap-2"
+            >
+              <span>Check Stock / Curbside Pickup:</span>
+              <span class="underline">{site.phone}</span>
+            </a>
+          )}
+          <a
+            href="/contact"
+            class="px-6 py-3 rounded-md text-sm font-semibold tracking-wider bg-[#ffffff] text-[#1c1917] border border-[#e9e3da] hover:border-[#1c1917] transition-colors"
+          >
+            Inquire About Box Allocations &rarr;
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MAIN EDITORIAL CONTENT -->
+  <section class="py-16 lg:py-24 bg-[#ffffff] border-b border-[#e9e3da]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      
+      <!-- Brand Overview & Heritage -->
+      <div class="space-y-6">
+        <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold block">
+          Heritage &amp; Blending
+        </span>
+        <h2 class="font-serif text-2xl sm:text-3xl text-[#1c1917] font-normal">
+          The Craftsmanship of {cigar.name}
+        </h2>
+        <p class="text-[#57534e] text-base sm:text-lg leading-relaxed">
+          {cigar.description}
+        </p>
+      </div>
+
+      <!-- Popular Vitolas / Lines in Stock -->
+      <div class="p-8 sm:p-10 rounded-2xl bg-[#fbf9f6] border border-[#e9e3da] space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#e9e3da] pb-4">
+          <div>
+            <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold block">
+              Humidor Inventory
+            </span>
+            <h3 class="font-serif text-2xl text-[#1c1917] font-normal mt-1">
+              Popular {cigar.name} Lines &amp; Sizes Available
+            </h3>
+          </div>
+          <span class="text-xs text-[#78716c] italic">
+            Single sticks, 5-packs &amp; full boxes
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {cigar.popularLines.map((line: string) => (
+            <div class="p-4 rounded-xl bg-[#ffffff] border border-[#e9e3da] flex items-center gap-3">
+              <span class="w-2 h-2 rounded-full bg-[#835f47] shrink-0"></span>
+              <span class="text-sm font-serif font-medium text-[#1c1917]">{line}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="pt-2 text-xs text-[#78716c] leading-relaxed">
+          <strong>Wrapper Info:</strong> {cigar.wrapper}
+        </div>
+      </div>
+
+      <!-- Tasting Profile & Montana Experience -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        
+        <!-- Flavor Profile -->
+        <div class="p-8 rounded-2xl bg-[#fbf9f6] border border-[#e9e3da] flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold block">
+              Sensory Notes
+            </span>
+            <h3 class="font-serif text-2xl text-[#1c1917] font-normal">
+              Tasting Profile
+            </h3>
+            <p class="text-sm text-[#57534e] leading-relaxed">
+              When lit at Whitefish's mountain elevation, {cigar.name} reveals an intricate progression of aromatic nuances:
+            </p>
+            <div class="flex flex-wrap gap-2 pt-2">
+              {cigar.tastingProfile.map((note: string) => (
+                <span class="px-3 py-1 rounded-md bg-[#ffffff] border border-[#e9e3da] text-xs font-serif text-[#1c1917]">
+                  {note}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-[#e9e3da]">
+            <strong class="text-xs uppercase tracking-wider text-[#1c1917] block mb-1">
+              Recommended Pairing:
+            </strong>
+            <p class="text-xs text-[#78716c] italic leading-relaxed">
+              {cigar.pairingSuggestion}
+            </p>
+          </div>
+        </div>
+
+        <!-- Humidor Storage in Whitefish -->
+        <div class="p-8 rounded-2xl bg-[#fbf9f6] border border-[#e9e3da] flex flex-col justify-between space-y-6">
+          <div class="space-y-4">
+            <span class="text-xs uppercase tracking-widest text-[#78716c] font-semibold block">
+              Montana Climate Care
+            </span>
+            <h3 class="font-serif text-2xl text-[#1c1917] font-normal">
+              Preserved at 67% Humidity
+            </h3>
+            <p class="text-sm text-[#57534e] leading-relaxed">
+              {cigar.humidorNote}
+            </p>
+            <p class="text-xs text-[#78716c] leading-relaxed">
+              Because Whitefish sits at 3,000 feet elevation with crisp alpine air, keeping your sticks at proper relative humidity prevents wrapper cracking and bitter burning. We provide complimentary humidified travel pouches for your day trips.
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-[#e9e3da]">
+            <a
+              href="/contact"
+              class="text-xs font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
+            >
+              Ask our tobacconist for availability &rarr;
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LOCAL WHITEFISH PURCHASE CARD -->
+      <div class="p-8 sm:p-12 rounded-2xl bg-[#1c1917] text-[#fbf9f6] text-center space-y-6">
+        <h3 class="font-serif text-2xl sm:text-3xl font-normal">
+          Pick Up {cigar.name} Cigars at 555 Smoke Shop
+        </h3>
+        <p class="text-[#d6d3d1] text-base max-w-2xl mx-auto font-light leading-relaxed">
+          Conveniently located at 3555 US-93 between Whitefish and Kalispell. Open Mon-Fri 8AM-8PM, Sat 10AM-9PM, Sun 10AM-6PM. Call ahead for quick curbside order preparation.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          {site.phone && (
+            <a
+              href={`tel:${site.phone.replace(/[^0-9]/g, '')}`}
+              class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider bg-[#fbf9f6] text-[#1c1917] hover:bg-[#ede7df] transition-colors"
+            >
+              Call {site.phone}
+            </a>
+          )}
+          {site.googleMapsUrl ? (
+            <a
+              href={site.googleMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider border border-[#78716c] text-[#fbf9f6] hover:bg-[#262422] transition-colors inline-flex items-center justify-center gap-2"
+            >
+              <span>Get Driving Directions</span>
+              <svg class="w-4 h-4 text-[#a8a29e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          ) : (
+            <a
+              href="/contact"
+              class="w-full sm:w-auto px-8 py-3.5 rounded-md text-sm font-semibold tracking-wider border border-[#78716c] text-[#fbf9f6] hover:bg-[#262422] transition-colors"
+            >
+              Store Hours &amp; Directions
+            </a>
+          )}
+        </div>
+        <div class="pt-1">
+          <a
+            href="/contact"
+            class="text-xs text-[#a8a29e] hover:text-[#fbf9f6] underline underline-offset-4 transition-colors"
+          >
+            View full store schedule &amp; contact form &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- EXPLORE RELATED CIGARS -->
+      <div class="space-y-6 pt-8 border-t border-[#e9e3da]">
+        <div class="flex items-center justify-between">
+          <h3 class="font-serif text-xl sm:text-2xl text-[#1c1917] font-normal">
+            Explore Other Cigar Brands in Stock
+          </h3>
+          <a
+            href="/cigars"
+            class="text-xs font-semibold text-[#1c1917] hover:text-[#78716c] transition-colors underline underline-offset-4"
+          >
+            View all 26 brands &rarr;
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {relatedCigars.map((related) => (
+            <a
+              href={`/cigars/${related.slug}`}
+              class="p-6 rounded-xl bg-[#fbf9f6] border border-[#e9e3da] hover:border-[#1c1917] transition-all block group"
+            >
+              <span class="text-[10px] uppercase tracking-wider text-[#78716c] block mb-1">
+                {related.category}
+              </span>
+              <h4 class="font-serif text-base font-bold text-[#1c1917] group-hover:text-[#835f47] transition-colors">
+                {related.name}
+              </h4>
+              <p class="text-xs text-[#57534e] line-clamp-2 mt-2 font-light">
+                {related.tagline}
+              </p>
+            </a>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </section>
+</BaseLayout>
